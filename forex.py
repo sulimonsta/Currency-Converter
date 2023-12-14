@@ -36,26 +36,3 @@ def validate_input(from_currency, to_currency, amount):
 
 if __name__ == '__main__':
     app.run(debug=True)
-# utils.py
-import requests
-
-def validate_currency_code(currency_code):
-    # this function based on the API response for currency code validation
-    # assume that the API returns a list of supported currencies
-    api_url = 'https://api.exchangerate.host/symbols'
-    response = requests.get(api_url)
-    currencies = response.json().get('symbols', {})
-
-    return currency_code in currencies
-
-def convert_currency(from_currency, to_currency, amount):
-    api_url = f'https://api.exchangerate.host/convert?from={from_currency}&to={to_currency}&amount={amount}'
-    response = requests.get(api_url)
-    data = response.json()
-
-    if response.status_code == 200:
-        converted_amount = data.get('result', 0)
-        return f"{to_currency} {converted_amount:.2f}"
-
-    return f"Error: {data.get('error', 'Unknown error')}"
-
